@@ -1,0 +1,40 @@
+name: Build Windows executable
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out installer repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build ROM CLI for Windows
+        shell: pwsh
+        run: ./Install-ROM-CLI-Windows.ps1 -SkipShortcut
+
+      - name: Stage executable artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path ./output -Force | Out-Null
+          Copy-Item "$env:LOCALAPPDATA\rom-cli\dist\rom.exe" ./output/rom.exe
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: rom-cli-windows
+          path: output/rom.exe
+          if-no-files-found: error
+          retention-days: 14

@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## Unreleased — installer safety update
+- Build in a unique staging directory before touching the current installation.
+- Preserve the previous installation as a timestamped backup after a successful build.
+- Restore the previous installation if activation of the new build fails.
+- Check exit codes for Python, pip, and PyInstaller commands.
+- Clean temporary download and extraction files on exit.
 
-- Build the application in a temporary staging directory.
-- Preserve the previous installation as a timestamped backup after a successful rebuild.
-- Keep the existing installation untouched when download or build steps fail.
-- Check Python version and validate external command exit codes.
-- Improve installer diagnostics and shortcut error handling.
-- Update installation and recovery documentation.
+This update has not yet been validated on a clean Windows machine. Treat it as a test build until verified.
