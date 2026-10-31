@@ -1,12 +1,12 @@
 @echo off
 setlocal
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Install-ROM-CLI-Windows.ps1"
-if errorlevel 1 (
-  echo.
-  echo Installation failed. Read the error above.
-  pause
-  exit /b 1
-)
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0Install-ROM-CLI-Windows.ps1"
+set "INSTALL_EXIT=%ERRORLEVEL%"
 echo.
-echo ROM CLI Windows installation completed.
+if not "%INSTALL_EXIT%"=="0" (
+  echo ROM CLI installation failed. Review the error messages above.
+) else (
+  echo ROM CLI for Windows was installed successfully.
+)
 pause
+exit /b %INSTALL_EXIT%
